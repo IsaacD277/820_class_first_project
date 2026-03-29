@@ -1,0 +1,211 @@
+paths:
+  /orders/{id}:
+    parameters:
+      - name: id
+        description: The unique identifier of the order
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+    get:
+      parameters:
+        - name: id
+          description: The unique identifier of the order
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+      summary: Get an order
+      responses:
+        '200':
+          description: The order corresponding to the provided `id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No orders found for the provided `id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Update an order
+      parameters:
+        - name: id
+          description: The unique identifier of the order
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            example:
+              {
+                "status": "Shipped"
+              }
+      responses:
+        '200':
+          description: The order has been successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No orders found for the provided `id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete an order
+      parameters:
+        - name: id
+          description: The unique identifier of the order
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+      responses:
+        '204':
+          description: Successfully deleted the order
+        '404':
+          description: No orders found for the provided `id`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orders:
+    get:
+      summary: Get a list of all orders
+      responses:
+        '200':
+          description: All of the orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No orders found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new order
+      responses:
+        '200':
+          description: Created a new order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: No orders found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            example:
+              {
+                "customerId": 47239,
+                "status": "Pending",
+                "subtotal": 49.99,
+                "taxAmount": 3.65,
+                "shippingAmount": 0.00,
+                "shippingMethod": "Ground",
+                "paymentMethod": "Credit Card"
+              }
+components:
+  schemas:
+    id:
+      description: The unique identifier of an order
+      type: integer
+    Order:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        customerId:
+          type: integer
+        status:
+          type: string
+          enum:
+            - Pending
+            - Shipped
+            - Complete
+        subtotal:
+          type: number
+          format: decimal
+        taxAmount:
+          type: number
+          format: decimal
+        shippingAmount:
+          type: number
+          format: decimal
+        shippingMethod:
+          type: string
+          enum:
+            - Ground
+            - Overnight
+        paymentMethod:
+          type: string
+          enum:
+            - Credit Card
+            - Cash
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string
+openapi: '3.1.0'
+
+info:
+  version: '1.0.0'
+  title: 'Order API'
+  description: An API designed for Module 9 of CSC820 at Penn State to handle orders from an e-commerce platform.
+servers:
+  - url: http://localhost:3000
+    description: Local Server
+          

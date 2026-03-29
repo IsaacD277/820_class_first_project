@@ -6,10 +6,10 @@ const OrderModel = {
     createdAt: { type: DataTypes.DATE, allowNull: false },
     updatedAt: { type: DataTypes.DATE, allowNull: false },
     status: { type: DataTypes.STRING, allowNull: false },
-    subtotal: { type: DataTypes.FLOAT, allowNull: false },
-    taxAmount: { type: DataTypes.FLOAT, allowNull: false },
-    shippingAmount: { type: DataTypes.FLOAT, allowNull: false },
-    totalAmount: { type: DataTypes.FLOAT, allowNull: false },
+    subtotal: { type: DataTypes.DECIMAL, allowNull: false },
+    taxAmount: { type: DataTypes.DECIMAL, allowNull: false },
+    shippingAmount: { type: DataTypes.DECIMAL, allowNull: false },
+    totalAmount: { type: DataTypes.DECIMAL, allowNull: false },
     shippingMethod: { type: DataTypes.STRING, allowNull: false },
     paymentMethod: { type: DataTypes.STRING, allowNull: false }
 };

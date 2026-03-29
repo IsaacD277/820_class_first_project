@@ -40,6 +40,7 @@ exports.createOrder = async (req, res) => {
 
 exports.updateOrder = async (req, res) => {
     const order = await Order.findByPk(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
     const updatableFields = ["status", "subtotal", "taxAmount", "shippingAmount", "shippingMethod", "paymentMethod"];
     for (const field of updatableFields) {
         const value = req.body[field];
@@ -59,6 +60,7 @@ exports.updateOrder = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
     const order = await Order.findByPk(req.params.id);
+    if (!order) return res.status(404).json({ error: 'No orders found for the provided `id`' });
     await order.destroy();
 
     res.status(204).send();
