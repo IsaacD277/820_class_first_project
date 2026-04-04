@@ -1,20 +1,12 @@
 version: 2.1
 orbs:
   docker: circleci/docker@3.0.1
+  gke: circleci/gcp-gke@2.1.0
+
 jobs:
-  build-and-publish-docker-image:
-    jobs:
-      - docker/publish:
-          executor:
-            image: circleci/node
-            name: docker/docker
-            tag: boron-browsers
-          image: isaacd2/orderapi
-          remote_docker_dlc: true
-          tag: amd64
-          use_remote_docker: true
   deploy:
-    machine: true
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - gke/install
@@ -27,10 +19,15 @@ jobs:
           command: |
             kubectl set image deployment/orderapi \
               orderapi=isaacd2/orderapi:amd64
+
 workflows:
   build-and-deploy:
     jobs:
-      - build-and-publish-docker-image
+      - docker/publish:
+          image: isaacd2/orderapi
+          tag: amd64
+          remote_docker_dlc: true
+          use_remote_docker: true
       - deploy:
           requires:
-            - build-and-publish-docker-image
+            - docker/publish
