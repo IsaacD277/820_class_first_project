@@ -7,7 +7,7 @@ sequelize.sync();
 
 app.use(express.json());
 
-app.get('/status', (req, res) => {
+app.get('/', (req, res) => {
     res.json({
         status: 'Running',
         timestamp: new Date().toISOString()
