@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   docker: circleci/docker@3.0.1
   gke: circleci/gcp-gke@2.1.0
+  gcp-cli: circleci/gcp-cli@3.0.0
 
 jobs:
   deploy:
@@ -9,10 +10,10 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
-      - gke/install
+      - gcp-cli/setup:
+          components: "gke-gcloud-auth-plugin kubectl"
       - gke/update-kubeconfig-with-credentials:
           cluster: "orderapi"
-          install-kubectl: true
           perform-login: true
       - run:
           name: Update Deployment
