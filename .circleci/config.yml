@@ -26,8 +26,6 @@ workflows:
       - docker/publish:
           image: isaacd2/orderapi
           tag: amd64
-          remote_docker_dlc: true
-          use_remote_docker: true
       - deploy:
           requires:
             - docker/publish
