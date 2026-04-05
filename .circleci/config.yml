@@ -38,7 +38,7 @@ jobs:
           name: Update Deployment
           command: |
             kubectl set image deployment/orderapi \
-              orderapi=isaacd2/orderapi:amd64
+              *=isaacd2/orderapi:amd64
 
 workflows:
   build-and-deploy:
