@@ -45,6 +45,10 @@ jobs:
           command: |
             kubectl set image deployment/orderapi \
               *=isaacd2/orderapi:amd64
+      - run:
+          name: Restart Deployment
+          command: |
+            kubectl rollout restart deployment/orderapi
 
 workflows:
   build-and-deploy:
