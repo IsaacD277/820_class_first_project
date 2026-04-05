@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: orderapi
+  labels:
+    app: orderapi
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: orderapi
   template:
     metadata:
       labels:
-        app: my-app
+        app: orderapi
     spec:
       containers:
-      - name: my-app
+      - name: orderapi
         image: isaacd2/orderapi:amd64
         ports:
         - containerPort: 3000
