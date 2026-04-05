@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orderapi
+  name: orderapi-deployment
+  labels:
+    app: orderapi
 spec:
   replicas: 3
   selector:
