@@ -35,16 +35,16 @@ jobs:
       - gke/update-kubeconfig-with-credentials:
           cluster: "orderapi-cluster"
       - run:
-          name: Update Deployment
-          command: |
-            kubectl set image deployment/orderapi \
-              *=isaacd2/orderapi:amd64
-      - run:
           name: Apply deployment
           command: kubectl apply -f deployment.yaml
       - run:
           name: Apply service
           command: kubectl apply -f service.yaml
+      - run:
+          name: Update Deployment
+          command: |
+            kubectl set image deployment/orderapi \
+              *=isaacd2/orderapi:amd64
 
 workflows:
   build-and-deploy:
