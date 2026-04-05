@@ -34,7 +34,6 @@ jobs:
           components: "gke-gcloud-auth-plugin kubectl"
       - gke/update-kubeconfig-with-credentials:
           cluster: "orderapi"
-          location: "us-east1"
       - run:
           name: Update Deployment
           command: |
