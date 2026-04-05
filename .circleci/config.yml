@@ -33,7 +33,7 @@ jobs:
       - gcp-cli/setup:
           components: "gke-gcloud-auth-plugin kubectl"
       - gke/update-kubeconfig-with-credentials:
-          cluster: "orderapi-cluster"
+          cluster: "orderapi-cluster-cluster"
       - run:
           name: Apply deployment
           command: kubectl apply -f deployment.yaml
