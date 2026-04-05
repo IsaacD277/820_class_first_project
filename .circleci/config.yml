@@ -22,7 +22,7 @@ jobs:
               --platform linux/amd64 \
               --provenance=false \
               --sbom=false \
-              -t isaacd2/orderapi:amd64 \
+              -t isaacd2/orderapi:${CIRCLE_SHA1} \
               --push .
 
   deploy:
@@ -35,21 +35,11 @@ jobs:
       - gke/update-kubeconfig-with-credentials:
           cluster: "orderapi-cluster-cluster"
       - run:
-          name: Apply deployment
-          command: kubectl apply -f deployment.yaml
-      - run:
-          name: Apply service
-          command: kubectl apply -f service.yaml
-      - run:
-          name: Update Deployment
+          name: Replace Tag and Apply
           command: |
-            kubectl set image deployment/orderapi \
-              *=isaacd2/orderapi:amd64
-      - run:
-          name: Restart Deployment
-          command: |
-            kubectl rollout restart deployment/orderapi
-
+            export IMAGE_TAG=${CIRCLE_SHA1}
+            envsubst < deployment.yaml | kubectl apply -f -
+            kubectl apply -f service.yaml
 workflows:
   build-and-deploy:
     jobs:

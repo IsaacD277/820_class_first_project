@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: orderapi
-        image: isaacd2/orderapi:amd64
+        image: isaacd2/orderapi:${IMAGE_TAG}
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
