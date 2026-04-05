@@ -1,10 +1,30 @@
 version: 2.1
 orbs:
-  docker: circleci/docker@3.0.1
   gke: circleci/gcp-gke@2.1.0
   gcp-cli: circleci/gcp-cli@3.0.0
 
 jobs:
+  build-and-push:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - run:
+          name: Login to Docker Hub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+      - run:
+          name: Build and Push with Buildx
+          command: |
+            # Create and use a new builder instance
+            docker buildx create --use
+            # Run your specific command
+            docker buildx build \
+              --platform linux/amd64 \
+              --provenance=false \
+              --sbom=false \
+              -t isaacd2/orderapi:amd64 \
+              --push .
+
   deploy:
     machine:
       image: ubuntu-2204:current
@@ -23,9 +43,7 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - docker/publish:
-          image: isaacd2/orderapi
-          tag: amd64
+      - build-and-push
       - deploy:
           requires:
-            - docker/publish
+            - build-and-push
