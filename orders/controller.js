@@ -10,7 +10,7 @@ exports.getOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
     const orders = await Order.findAll();
-    res.json({ success: true, data: orders });
+    res.json({ success: true, date: new Date(), data: orders });
 };
 
 exports.createOrder = async (req, res) => {
