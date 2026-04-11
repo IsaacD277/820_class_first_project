@@ -10,7 +10,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({
         status: 'Running',
-        version: 'v1.0.2',
+        version: 'v1.0.3',
         timestamp: new Date().toISOString()
     });
 });

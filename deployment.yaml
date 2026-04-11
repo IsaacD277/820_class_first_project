@@ -20,3 +20,19 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
+      volumes:
+        - name: orderapi-volume
+          persistentVolumeClaim:
+            claimName: orderapi-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: orderapi-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard-rwx
