@@ -420,7 +420,7 @@ describe('Order Controller', () => {
 
             mockOrderMethods.findByPk.mockResolvedValue(mockOrder);
 
-            const req = { params: { id: 1 }, body: { customerId: "3", subtotal: 200 } }
+            const req = { params: { id: 1 }, body: { customerId: "3" } }
             const res = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn()
@@ -451,7 +451,7 @@ describe('Order Controller', () => {
 
             mockOrderMethods.findByPk.mockResolvedValue(mockOrder);
 
-            const req = { params: { id: 1 }, body: { status: 3, subtotal: 200 } }
+            const req = { params: { id: 1 }, body: { status: 3 } }
             const res = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn()
@@ -622,7 +622,7 @@ describe('Order Controller', () => {
     it('should return 404 when no order matches the provided ID', async () => {
         mockOrderMethods.findByPk.mockResolvedValue(null);
 
-        const req = { params: { id: 999 }, body: { status: 3, subtotal: 200 } }
+        const req = { params: { id: 999 }, body: { status: 3 } }
         const res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn()

@@ -50,10 +50,7 @@ exports.createOrder = async (req, res) => {
             data: order
         });
     } catch (err) {
-        if (err.message !== null) {
-            res.status(400).json({ success: false, error: err.message});
-        }
-        res.status(500).json({ success: false, error: err.message });
+        res.status(400).json({ success: false, error: err.message});
     }
 };
 
@@ -106,10 +103,7 @@ exports.updateOrder = async (req, res) => {
             data: order
         });
     } catch (err) {
-        if (err.message !== null) {
-            res.status(400).json({ success: false, error: err.message});
-        }
-        res.status(500).json({ success: false, error: err.message });
+        res.status(400).json({ success: false, error: err.message});
     }
 }
 
