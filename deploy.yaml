@@ -1,0 +1,63 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Install Git
+      ansible.builtin.package:
+        name: git
+        state: present
+      become: true
+
+    - name: Install Python
+      ansible.builtin.dnf:
+        name: python3
+        state: present
+      become: true
+
+    - name: Update dnf cache
+      ansible.builtin.dnf:
+        update_cache: yes
+
+    - name: Install Node.js and npm
+      ansible.builtin.dnf:
+        name:
+          - nodejs
+          - npm
+        state: present
+
+    - name: Ensure /orders directory exists
+      ansible.builtin.file:
+        path: /orders
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: '0755'
+      become: true
+
+    - name: Copy application files
+      ansible.posix.synchronize:
+        src: /Users/isaacd2/Developer/820_Class_First_Project/
+        dest: /orders/
+        owner: false
+        group: false
+        rsync_path: "sudo rsync"
+        rsync_opts:
+          - "--cvs-exclude"
+          - "-e 'ssh -i /Users/isaacd2/Downloads/820Class.pem -o StrictHostKeyChecking=no'"
+
+    - name: Install app dependencies
+      npm:
+        path: /orders
+        state: present
+
+    - name: Install PM2 globally
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+    - name: Start or reload the Node.js app with PM2
+      ansible.builtin.command: pm2 start -f app.js --name "my-node-app"
+      args:
+        chdir: /orders
+      become: true
+      become_user: ec2-user

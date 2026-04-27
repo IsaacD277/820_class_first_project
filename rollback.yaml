@@ -1,0 +1,17 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Stop the Node.js app
+      command: pm2 stop my-node-app
+      ignore_errors: yes
+      become_user: ec2-user
+
+    - name: Delete PM2 process
+      command: pm2 delete my-node-app
+      ignore_errors: yes
+      become_user: ec2-user
+
+    - name: Remove the application directory
+      file:
+        path: /orders
+        state: absent
